@@ -24,13 +24,25 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	// spring boot
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	compileOnly("org.projectlombok:lombok")
+
+	// spring data jpa
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+	// postgresql
 	runtimeOnly("org.postgresql:postgresql")
+
+	// kafka
+	implementation("org.springframework.kafka:spring-kafka")
+
+	// lombok
+	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
+
+	// test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.kafka:spring-kafka-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
