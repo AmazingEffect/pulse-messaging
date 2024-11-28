@@ -30,7 +30,10 @@ configurations {
 // 의존성 관리를 위한 저장소 설정
 repositories {
     mavenCentral() // Maven Central Repository 사용
+    maven { url = uri("https://repo.spring.io/milestone") }
 }
+
+extra["springCloudVersion"] = "2024.0.0-RC1"
 
 // 프로젝트에서 사용하는 의존성 추가
 dependencies {
@@ -62,10 +65,20 @@ dependencies {
     implementation ("io.micrometer:micrometer-tracing-bridge-otel")
     implementation ("io.opentelemetry:opentelemetry-exporter-otlp")
 
+    // Euraka 서버 의존성
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+
     // 테스트 의존성
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher") // 테스트 런처
+}
+
+// 의존성 관리 설정
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 // Protobuf 관련 설정
