@@ -1,0 +1,70 @@
+# 포트 설정
+server:
+  port: 8091
+
+# JWT 설정
+jwt:
+  jwtSecret: "aVeryLongSecretKeyThatIsAtLeast32BytesLongForSecurity"
+  jwtExpiration: 3600000 # 1시간 (밀리초 단위)
+
+# 스프링 설정
+spring:
+  # 애플리케이션 이름 설정
+  application:
+    name: talk
+
+  # 데이터베이스 설정
+  datasource:
+    url: jdbc:postgresql://localhost:5432/talk
+    username: root
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  # JPA 설정
+  jpa:
+    database: POSTGRESQL
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+    # show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 10
+        highlight_sql: true
+
+  # 카프카 설정
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:10000,localhost:10001,localhost:10002
+      group-id: talk-group
+    producer:
+      bootstrap-servers: localhost:10000,localhost:10001,localhost:10002
+
+# msa 로깅 설정 (jaeger)
+otel:
+  resource:
+    attributes:
+      service.name: ${spring.application.name}
+
+tracing:
+  url: http://localhost:4318/v1/traces
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+
+# gRPC 서버 포트 설정
+grpc:
+  server:
+    port: 50052
+  client:
+    member-grpc-server: # @GrpcClient에서 사용한 이름과 일치해야 함
+      address: static://localhost:50051  # gRPC 서버 주소와 포트
+      negotiationType: plaintext  # SSL/TLS 없이 평문으로 통신할 경우
