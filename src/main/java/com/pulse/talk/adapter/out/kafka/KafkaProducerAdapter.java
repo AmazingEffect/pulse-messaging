@@ -1,6 +1,7 @@
 package com.pulse.talk.adapter.out.kafka;
 
 import com.pulse.talk.application.port.out.kafka.KafkaProducerPort;
+import com.pulse.talk.common.annotation.MessagingAdapter;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
@@ -26,7 +27,7 @@ import java.util.concurrent.CompletableFuture;
  */
 @RequiredArgsConstructor
 @Slf4j
-@Component
+@MessagingAdapter
 public class KafkaProducerAdapter implements KafkaProducerPort {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
@@ -152,5 +153,5 @@ public class KafkaProducerAdapter implements KafkaProducerPort {
         RecordMetadata metadata = result.getRecordMetadata();
         log.info("Sent message=[{}] to topic=[{}] with offset=[{}]", payloadJson, topic, metadata.offset());
     }
-    
+
 }
