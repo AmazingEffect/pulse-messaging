@@ -44,6 +44,9 @@ dependencies {
     // PostgreSQL 드라이버
     runtimeOnly("org.postgresql:postgresql")
 
+    // MongoDB 드라이버
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+
     // Kafka 의존성
     implementation("org.springframework.kafka:spring-kafka")
 
